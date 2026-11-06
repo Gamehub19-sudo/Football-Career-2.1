@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Football Career 1.27 — Painéis Recolhíveis</title>
+<style>
+:root{--bg:#08111f;--panel:#111f32;--panel2:#172941;--text:#eef5ff;--muted:#9db0c9;--green:#49e09b;--gold:#ffd166;--line:#2a3e59}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#142b44,var(--bg) 60%);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:26px 18px 18px;text-align:center;border-bottom:1px solid var(--line)}h1{margin:0;font-size:clamp(26px,5vw,42px)}header p{margin:8px auto 0;color:var(--muted);max-width:700px}
+main{max-width:1100px;margin:auto;padding:18px;display:grid;gap:16px}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.stat,.panel{background:linear-gradient(145deg,var(--panel),#0d1929);border:1px solid var(--line);border-radius:16px;padding:16px}.stat span{display:block;color:var(--muted);font-size:13px}.stat strong{font-size:25px}.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.panel h2{margin:0 0 12px;font-size:21px}.muted{color:var(--muted)}label{display:block;margin:10px 0 5px;color:var(--muted);font-size:14px}input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#091525;color:var(--text);font:inherit}button{border:0;border-radius:10px;padding:11px 14px;background:var(--green);color:#062116;font-weight:800;font:inherit;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.pill{display:inline-block;padding:5px 9px;border:1px solid var(--line);border-radius:99px;color:var(--muted);font-size:12px;margin:2px}.contract{padding:13px;border:1px solid var(--line);border-radius:12px;background:#0b1727;margin:9px 0}.contract h3{margin:0 0 5px}.contract p{margin:5px 0;color:var(--muted);font-size:14px}.contract button{margin-top:7px}.bar{height:9px;background:#26384e;border-radius:99px;overflow:hidden;margin-top:8px}.bar div{height:100%;background:var(--green);width:0%}#message{min-height:24px;color:var(--gold);margin-top:8px}#message.error{color:#ff3b3b;font-weight:800}.teamlist{display:flex;flex-wrap:wrap;gap:5px;max-height:240px;overflow:auto}.teamlist .pill{color:var(--text)}.small{font-size:13px}.careerlog{max-height:180px;overflow:auto;padding-left:20px;color:var(--muted)}footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}main{padding:12px}.stat strong{font-size:22px}}
+
+.avatar-stage{margin:14px auto 8px;max-width:360px;min-height:330px;padding:20px;border:1px solid var(--line);border-radius:22px;text-align:center;background:radial-gradient(circle at 50% 45%,#193557,#091525 68%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.player-avatar{position:relative;width:190px;height:285px;margin:auto}.av-head{position:absolute;z-index:5;left:47px;top:28px;width:96px;height:108px;border-radius:48% 48% 45% 45%;box-shadow:inset 0 -5px 0 rgba(0,0,0,.08);border:2px solid rgba(255,255,255,.12)}.av-hair{position:absolute;z-index:8;left:-5px;top:-15px;width:106px;height:47px;background:var(--hair);border-radius:55% 55% 30% 30%}.hair-curto{clip-path:polygon(0 25%,15% 8%,35% 16%,51% 0,67% 13%,87% 6%,100% 30%,94% 67%,79% 45%,62% 62%,45% 42%,27% 59%,8% 50%)}.hair-cacheado,.hair-crespo{height:55px;border-radius:50%;box-shadow:-12px 8px 0 -4px var(--hair),12px 7px 0 -3px var(--hair),28px 13px 0 -9px var(--hair),-27px 13px 0 -9px var(--hair)}.hair-crespo{height:62px;top:-20px;box-shadow:-16px 8px 0 -2px var(--hair),16px 7px 0 -2px var(--hair),31px 17px 0 -8px var(--hair),-31px 17px 0 -8px var(--hair)}.hair-longo{height:100px;top:-14px;border-radius:50% 50% 40% 40%;clip-path:polygon(0 0,100% 0,100% 100%,80% 78%,75% 30%,25% 30%,20% 78%,0 100%)}.hair-moicano{left:31px;width:36px;height:55px;top:-33px;border-radius:60% 20% 45% 10%;transform:skew(-8deg)}.hair-raspado{height:24px;top:-3px;opacity:.8;border-radius:60% 60% 20% 20%}.av-eyes{position:absolute;z-index:9;top:48px;left:18px;width:60px;display:flex;justify-content:space-between}.av-eyes i{width:18px;height:22px;border:5px solid white;border-radius:50%;box-shadow:0 0 0 2px #17202a}.av-nose{position:absolute;top:72px;left:45px;width:7px;height:9px;border-radius:50%;background:rgba(120,65,40,.25)}.av-mouth{position:absolute;top:89px;left:37px;width:23px;height:9px;border-bottom:3px solid #7b3c35;border-radius:50%}.av-neck{position:absolute;z-index:3;left:80px;top:126px;width:30px;height:28px;border-radius:8px}.av-body{position:absolute;z-index:4;left:40px;top:145px;width:110px;height:90px;border:4px solid;border-radius:24px 24px 16px 16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:white;text-shadow:0 1px 2px #000}.av-arm{position:absolute;z-index:2;top:158px;width:24px;height:85px;border-radius:14px}.av-arm.left{left:27px;transform:rotate(8deg)}.av-arm.right{right:27px;transform:rotate(-8deg)}.av-leg{position:absolute;top:225px;width:35px;height:55px;background:#17202a;border-radius:0 0 12px 12px}.av-leg.left{left:54px}.av-leg.right{right:54px}.corner-avatar{position:fixed;z-index:50;right:14px;bottom:14px;width:96px;height:116px;border-radius:18px;background:linear-gradient(145deg,#172941,#091525);border:2px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.35);align-items:center;justify-content:center;overflow:hidden}.player-avatar.mini{transform:scale(.34);transform-origin:center;width:190px;height:285px;flex:none}.corner-avatar .player-avatar{margin:0}.needs-modal{display:none;position:fixed;inset:0;z-index:1200;background:rgba(2,8,18,.9);padding:14px;overflow:auto;align-items:center;justify-content:center}.needs-card{width:min(720px,100%);margin:auto;background:linear-gradient(145deg,#172941,#0b1727);border:1px solid var(--line);border-radius:18px;padding:18px}.need-row{margin:12px 0}.need-row strong{display:flex;justify-content:space-between}.need-bar{height:12px;background:#26384e;border-radius:99px;overflow:hidden;margin-top:6px}.need-bar i{display:block;height:100%;background:var(--green);width:100%;transition:width .25s}.need-shop{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.need-shop .contract{margin:0}.sleeping .av-eyes i{height:3px;border:0;border-bottom:3px solid #fff;border-radius:0;background:transparent!important;box-shadow:none}.sleeping .av-mouth{border-bottom:0;border-top:3px solid #7b3c35}@media(max-width:520px){.need-shop{grid-template-columns:1fr}}
+@media(max-width:720px){#characterCustomizer>div[style*="repeat(3"]{grid-template-columns:1fr}.corner-avatar{width:82px;height:100px;right:8px;bottom:8px}}
+</style>
+<style id="v112-controls-style">#v112-tools{display:none!important} #v112-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}#v112-tools button{border:0;border-radius:12px;padding:10px 14px;font-size:15px;cursor:pointer}#v112-customize{background:#f1f5f9}#v112-save{background:#dcfce7}#v112-reset{background:#fee2e2}#v112-save-msg{font-size:13px;margin-left:6px}</style>
+<script id="v112-controls">document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('v112-tools'))return;const b=document.createElement('div');b.id='v112-tools';b.innerHTML='<button id="v112-customize" title="Personalizar personagem">👤</button><button id="v112-save" title="Salvar jogo">💾 Salvar</button><button id="v112-reset" title="Reiniciar jogo">🔄 Reiniciar jogo</button><span id="v112-save-msg"></span>';document.body.insertBefore(b,document.body.firstChild);const c=document.getElementById('v112-customize'),s=document.getElementById('v112-save'),r=document.getElementById('v112-reset'),m=document.getElementById('v112-save-msg');c.onclick=function(){const t=[...document.querySelectorAll('button,a,[role=button]')].find(e=>/personaliz|personagem|avatar/i.test((e.textContent||'')+' '+(e.getAttribute('aria-label')||'')));if(t&&t!==c)t.click();else alert('Abra a personalização do personagem para editar seu visual.');};s.onclick=function(){localStorage.setItem('footballCareerSaved','1');m.textContent='✓ Jogo salvo';m.style.color='green';s.remove();};r.onclick=function(){if(confirm('Tem certeza que deseja reiniciar o jogo? Todo o progresso salvo neste navegador será apagado.')){localStorage.removeItem("footballCareerSave");localStorage.removeItem("footballCareerSaved");localStorage.removeItem("footballCareerSavedAt");location.reload();}};if(localStorage.getItem('footballCareerSaved')==='1'){s.remove();m.textContent='✓ Jogo salvo';m.style.color='green';}});</script>
+
+<style id="v127-collapsible-panels">
+.collapsible-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.collapsible-heading h2{margin:0!important}
+.panel-toggle{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:7px 11px;font-size:13px;border-radius:9px;white-space:nowrap}
+.collapsible-content[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><h1>⚽ Football Career 1.27</h1><p>Ganhe R$ 2.000 por partida desde o início, com bônus de R$ 750 por nível de habilidade e bônus de contrato. Comece como uma promessa desconhecida: evolua aos poucos, junte dinheiro e conquiste Fama para merecer propostas de clubes cada vez maiores. A Liga Arebea paga fortunas, mas reduz sua Fama a cada partida.</p></header>
+<main>
+<section class="stats">
+<div class="stat"><span>Fama</span><strong id="fame">0</strong><div class="bar"><div id="famebar"></div></div></div>
+<div class="stat"><span>Overall</span><strong id="ovr">55</strong></div>
+<div class="stat"><span>Saldo</span><strong id="cash">R$ 0</strong></div>
+<div class="stat"><span>Clube atual</span><strong id="club" style="font-size:18px">Sem clube</strong></div>
+<div class="stat"><span>Salário por partida</span><strong id="matchSalary" style="font-size:21px">R$ 2.000</strong></div>
+</section>
+<section class="panel" id="competitionCounters">
+<h2>🏆 Contador de campeonatos</h2>
+<div class="row" style="margin-top:0">
+<div class="contract" style="flex:1;min-width:220px"><b>Campeonato da liga</b><p id="leagueCounterText" class="muted">Entre em um clube de liga para acompanhar.</p></div>
+<div class="contract" style="flex:1;min-width:220px"><b>Torneio das Partidas Locais</b><p id="localCounterText" class="muted">Entre em um clube local para acompanhar.</p></div>
+</div>
+<p class="small muted">Os contadores consideram partidas normais da carreira; partidas dos próprios torneios não entram na contagem.</p>
+</section>
+<section class="layout">
+<div class="panel">
+<h2>👤 Seu jogador</h2>
+<label>Nome do jogador</label><input id="playerName" maxlength="28" value="" placeholder="Digite seu nome">
+<label>Posição</label><select id="position"><option value="" selected disabled>Selecione sua posição</option><option>Atacante</option><option>Meia</option><option>Ponta</option><option>Volante</option><option>Zagueiro</option><option>Goleiro</option></select>
+<div class="row"><button type="button" id="confirmProfile" class="secondary">✅ Confirmar nome e posição</button></div>
+<label>Escolha uma competição para procurar clubes</label><select id="league"><option value="all">Todas as ligas</option><option>Partidas Locais</option><option>Brasileirão Série A</option><option>Brasileirão Série B</option><option>Brasileirão Série C</option><option>Brasileirão Série D</option><option>La Liga</option><option>Premier League</option><option>Arebea</option><option>Seleções</option></select>
+<div class="panel" id="characterCustomizer" style="margin-top:14px;background:#0b1727">
+<h2>💁 Personalize seu personagem</h2>
+<p class="muted small">Monte seu avatar. Cada opção altera somente a parte escolhida. Depois de salvar, esta área desaparece e seu avatar fica no canto da tela.</p>
+<div id="avatar" class="avatar-stage"></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+<div><label>💇 Cabelo</label><select id="hair"><option value="curto">Curto</option><option value="cacheado">Cacheado</option><option value="crespo">Crespo</option><option value="longo">Longo</option><option value="moicano">Moicano</option><option value="raspado">Raspado</option></select></div>
+<div><label>👁️ Olhos</label><select id="eyes"><option value="castanhos">Castanhos</option><option value="pretos">Pretos</option><option value="azuis">Azuis</option><option value="verdes">Verdes</option><option value="mel">Mel</option></select></div>
+<div><label>🎨 Pele</label><select id="skin"><option value="claro">Claro</option><option value="medio">Médio</option><option value="moreno">Moreno</option><option value="escuro">Escuro</option></select></div>
+</div>
+<input id="beard" type="hidden" value="nenhuma">
+<p class="small muted" id="outfitText" style="text-align:center"></p>
+<div class="row" style="justify-content:center"><button type="button" id="saveAvatar">💾 Salvar personagem</button></div>
+</div><div id="cornerAvatar" class="corner-avatar" title="Clique para ver os cuidados do personagem" role="button" tabindex="0"></div>
+
+<div class="row"><button id="play">⚽ Jogar partida</button><button class="secondary" id="trainingTab">🏋️ Treinar</button><button class="secondary" id="offer">📩 Buscar contratos</button><button class="secondary" id="resetGame">🔄 Reiniciar jogo</button></div><section class="panel" id="trainingPanel" style="display:none;margin-top:14px;background:#0b1727"><h2>🏋️ Treinar habilidades</h2><p class="muted small">Cada upgrade custa R$ 5.000 e aumenta <b>+1 nível</b> na habilidade escolhida. Cada nível médio de habilidade acrescenta R$ 750 ao pagamento por partida; contratos assinados também acrescentam o salário semanal por partida. As habilidades melhoram seu rendimento e também contam para conseguir contratos.</p><div id="skills"></div></section>
+<div id="message" aria-live="polite">Sua carreira começa agora. Jogue sua primeira partida!</div>
+<h2 style="margin-top:20px">📊 Histórico da carreira</h2><ul class="careerlog" id="log"><li>Você assinou como agente livre e começou com 0 de Fama.</li></ul>
+</div>
+<div class="panel">
+<h2>📩 Contratos recebidos</h2><p class="muted small">As propostas dependem da sua Fama e Overall. Clubes maiores só aparecem quando você cumprir os requisitos. Upar uma habilidade custa R$ 5.000. Cada upgrade aumenta +1 nível na habilidade escolhida; as habilidades também influenciam o rendimento e os requisitos dos clubes.</p>
+<div id="contracts"><p class="muted">Jogue partidas ou busque contratos para receber propostas.</p></div>
+</div>
+</section>
+<section class="panel" id="shopPanel"><h2>🛒 Loja de equipamentos</h2><p class="muted small">Os itens são filtrados pela sua posição. Goleiros só podem comprar equipamentos de goleiro; jogadores de linha só veem equipamentos compatíveis com sua posição. Os bônus melhoram seu rendimento nas partidas.</p><div id="shopItems"></div></section>
+<section class="panel"><h2>🌍 Clubes e seleções no universo do jogo</h2><p class="muted small">A lista abaixo reúne clubes e seleções para gerar contratos. Para evitar travar o jogo, as propostas aparecem em grupos aleatórios conforme sua Fama.</p><div class="teamlist" id="teams"></div><p class="muted small">Nota: os elencos e divisões mudam a cada temporada; esta versão é uma base jogável e pode não refletir todas as inscrições oficiais da temporada atual.</p></section>
+</main>
+<div id="tournamentModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(2,8,18,.88);padding:16px;overflow:auto;align-items:center;justify-content:center">
+ <section class="panel" style="width:min(760px,100%);margin:auto;border-color:var(--gold)">
+  <h2 id="tournamentTitle">🏆 Torneio das Partidas Locais</h2><p id="tournamentIntro" class="muted"></p><div id="tournamentContent"></div>
+  <div class="row"><button id="tournamentPlay">▶️ Pular próxima partida</button><button id="tournamentClose" class="secondary">Voltar ao jogo</button></div>
+ </section>
+</div>
+<div id="needsModal" class="needs-modal" role="dialog" aria-modal="true" aria-labelledby="needsTitle">
+ <section class="needs-card">
+  <h2 id="needsTitle">🧍 Cuidados do personagem</h2>
+  <p class="muted small">Cuide das necessidades do jogador. Se alguma estiver muito baixa, ele não poderá disputar partidas.</p>
+  <div id="needsStatus"></div>
+  <h3>🏪 Loja de cuidados</h3>
+  <div class="need-shop">
+   <div class="contract"><h3>🧊 Geladeira</h3><p>Compre uma refeição para recuperar a fome (+55).</p><b>R$ 100</b><br><button data-care="food">Comprar comida</button></div>
+   <div class="contract"><h3>🛏️ Cama</h3><p>Descanse para recuperar o sono (+65).</p><b>Grátis</b><br><button data-care="sleep">Dormir</button></div>
+   <div class="contract"><h3>🏥 Hospital</h3><p>Kit médico para recuperar a saúde (+60).</p><b>R$ 5.000</b><br><button data-care="medicine">Comprar kit médico</button></div>
+  </div>
+  <p id="careMessage" aria-live="polite" class="muted"></p>
+  <div class="row"><button id="closeNeeds" class="secondary">Voltar ao jogo</button></div>
+ </section>
+</div>
+<footer>Football Career • Protótipo jogável em HTML • Progresso salvo neste navegador</footer>
+<script>
+const clubs={
+"Partidas Locais":["União Local FC","Atlético Municipal","Real Bairro FC","Esporte Clube Central","Juventude Regional","Estrela da Cidade","Vila Nova Local","Operário Municipal","Grêmio da Praça","Associação Esportiva Local"],
+"Brasileirão Série A":["Flamengo","Palmeiras","Botafogo","Atlético-MG","São Paulo","Corinthians","Fluminense","Grêmio","Internacional","Santos","Cruzeiro","Bahia","Athletico-PR","Fortaleza","Vasco","Bragantino","Cuiabá","Goiás","Coritiba","América-MG"],
+"Brasileirão Série B":["Sport","Ceará","Santos","Novorizontino","Mirassol","Vila Nova","Goiás","América-MG","Coritiba","Avaí","CRB","Operário-PR","Amazonas","Paysandu","Ponte Preta","Botafogo-SP","Ituano","Brusque","Chapecoense","Guarani"],
+"Brasileirão Série C":["Náutico","Remo","Figueirense","ABC","Londrina","Ypiranga-RS","São Bernardo","Volta Redonda","Ferroviária","Confiança","CSA","Caxias","Aparecidense","Sampaio Corrêa","Tombense","Botafogo-PB","Ferroviário-CE","Floresta","Athletic Club","São José-RS"],
+"Brasileirão Série D":["Retrô","Anápolis","Itabaiana","Manauara","Portuguesa-RJ","Maringá","Inter de Limeira","Água Santa","Brasiliense","Ceilândia","Trem","Altos","Moto Club","Juazeirense","ASA","Central","Nova Iguaçu","Real Noroeste","Hercílio Luz","São Raimundo-RR"],
+"La Liga":["Real Madrid","Barcelona","Atlético de Madrid","Athletic Club","Real Sociedad","Real Betis","Villarreal","Valencia","Sevilla","Girona","Osasuna","Getafe","Celta de Vigo","Rayo Vallecano","Mallorca","Las Palmas","Espanyol","Leganés","Alavés","Valladolid"],
+"Premier League":["Manchester City","Arsenal","Liverpool","Manchester United","Chelsea","Tottenham","Newcastle United","Aston Villa","Brighton","West Ham","Crystal Palace","Fulham","Brentford","Wolverhampton","Everton","Nottingham Forest","Bournemouth","Leicester City","Ipswich Town","Southampton"],
+"Arebea":["Al Hilal Arebea","Al Nassr Arebea","Al Ahli Arebea","Al Ittihad Arebea","Al Shabab Arebea","Al Fateh Arebea","Al Ettifaq Arebea","Al Taawoun Arebea","Al Riyadh Arebea","Al Raed Arebea","Arebea United","Arebea City","Arebea Stars","Royal Arebea","Arebea FC","Desert Kings","Golden Falcons","Arabia Warriors","Arebea Sporting","Arebea Crown"],
+"Seleções":["Brasil","Argentina","França","Inglaterra","Espanha","Portugal","Alemanha","Itália","Holanda","Bélgica","Uruguai","Colômbia","Croácia","Marrocos","Japão","Estados Unidos","México","Senegal","Nigéria","Coreia do Sul","Canadá","Suíça","Dinamarca","Suécia","Chile","Equador","Paraguai","Austrália","Gana","Camarões"]
+};
+const allTeams=Object.entries(clubs).flatMap(([league,teams])=>teams.map(team=>({team,league})));
+let state={fame:0,ovr:55,cash:0,club:"Sem clube",contractSalary:0,matches:0,wins:0,contracts:[],log:["Você assinou como agente livre e começou com 0 de Fama."],tournamentNoticeShown:false,tournament:null,name:"",position:"",profileLocked:false,hair:"curto",eyes:"castanhos",skin:"medio",beard:"nenhuma",avatarSaved:false,equipment:[],skills:{velocidade:0,forca:0,passe:0,drible:0,defesa:0,pulo:0},hunger:100,energy:100,health:100,leagueMatchesSinceCup:0,localMatchesSinceCup:0,...load()};
+["hunger","energy","health"].forEach(k=>{if(typeof state[k]!=="number"||!Number.isFinite(state[k]))state[k]=100;state[k]=Math.max(0,Math.min(100,state[k]));});
+if(state.matches>0) state.profileLocked=true;
+function load(){try{return JSON.parse(localStorage.getItem("footballCareerSave")||"{}")}catch{return {}}}
+function save(){try{localStorage.setItem("footballCareerSave",JSON.stringify(state))}catch(e){/* O jogo continua mesmo sem armazenamento disponível. */}}
+const $=id=>document.getElementById(id);
+function money(n){return "R$ "+Math.round(n).toLocaleString("pt-BR")}
+function addLog(t){state.log.unshift(t);state.log=state.log.slice(0,15)}
+const skillNames={velocidade:"Velocidade",forca:"Força do Chute",passe:"Passe",drible:"Drible",defesa:"Defesa",pulo:"Pulo"};
+function activeSkills(){return state.position==="Goleiro"?["defesa","forca","velocidade","pulo"]:["velocidade","forca","passe","drible"]}
+function skillAverage(){const a=activeSkills();return Math.round(a.reduce((s,k)=>s+(state.skills[k]??0),0)/a.length)}
+function performanceScore(){return Math.round(state.ovr*0.6+skillAverage()*0.4+equipmentBonus()*0.15)}
+function renderSkills(){const el=$("skills");if(!el)return;el.innerHTML=`<div class="row" style="margin-top:0"><span class="pill">Rendimento: ${performanceScore()}</span><span class="pill">Nível médio: ${skillAverage()}</span></div>`+activeSkills().map(k=>{const v=state.skills[k]??0;return `<div class="contract"><h3>${skillNames[k]} <span class="pill">Nível ${v}</span></h3><div class="bar"><div style="width:${Math.min(100,v/115*100)}%"></div></div><p class="small muted">+1 nível por upgrade • influencia rendimento e contratos</p><button type="button" data-train-skill="${k}" ${v>=115||state.cash<5000?"disabled":""}>Upar por R$ 5.000</button></div>`}).join("")}
+function currentMatchPay(){
+ const base=2000;
+ const skill=skillAverage()*750;
+ const contract=state.contractSalary||0;
+ let extra=0;
+ const arebeaTeams=clubs["Arebea"]||[];
+ const idx=arebeaTeams.indexOf(state.club);
+ if(idx>=0) extra=50000000+idx*10000000+Math.round(state.ovr*500000);
+ return base+skill+contract+extra;
+}
+function renderCompetitionCounters(){
+ const leagueText=$("leagueCounterText"),localText=$("localCounterText");
+ if(!leagueText||!localText)return;
+ if(leagueClub()){
+  const season=state.leagueSeason;
+  leagueText.textContent=season&&!season.done?`Campeonato em andamento: rodada ${Math.min(season.round,38)}/38. Próximo campeonato após o fim e mais 10 partidas normais.`:`${Math.min(10,state.leagueMatchesSinceCup||0)}/10 partidas normais para começar o próximo campeonato.`;
+ }else leagueText.textContent="Entre em um clube de liga (Brasileirão, La Liga ou Premier League) para acompanhar.";
+ if(isLocalClub()) localText.textContent=`${Math.min(30,state.localMatchesSinceCup||0)}/30 partidas normais para começar o próximo torneio.`;
+ else localText.textContent="Entre em um clube de Partidas Locais para acompanhar.";
+}
+function render(){ $("matchSalary").textContent=money(currentMatchPay()); $("hair").value=state.hair;$("eyes").value=state.eyes;$("skin").value=state.skin;$("beard").value=state.beard;updateAvatar();updateAvatarUI(); $("fame").textContent=state.fame.toLocaleString("pt-BR");$("ovr").textContent=state.ovr;$("cash").textContent=money(state.cash);$("club").textContent=state.club;$("famebar").style.width=(state.fame%100)+"%";$("log").innerHTML=state.log.map(x=>"<li>"+esc(x)+"</li>").join("");$("playerName").value=state.name;$("position").value=state.position;$("playerName").disabled=state.profileLocked;$("position").disabled=state.profileLocked;renderContracts();renderShop();renderSkills();renderCompetitionCounters();save()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function level(){return Math.min(6,Math.floor(state.fame/100))}
+const tierNames=["Partidas Locais","Brasileirão Série D","Brasileirão Série C","Brasileirão Série B","Brasileirão Série A","La Liga","Premier League","Arebea","Seleções"];
+const tierRequirements=[
+ {fame:0,ovr:55,skill:2},{fame:60,ovr:60,skill:5},{fame:180,ovr:68,skill:10},{fame:350,ovr:74,skill:15},{fame:600,ovr:80,skill:20},
+ {fame:900,ovr:86,skill:25},{fame:1200,ovr:90,skill:30},{fame:700,ovr:82,skill:22},{fame:1600,ovr:94,skill:35}
+];
+const localRequirements={
+ "União Local FC":{fame:10,ovr:56,skill:2},"Atlético Municipal":{fame:15,ovr:57,skill:2},"Real Bairro FC":{fame:20,ovr:57,skill:3},
+ "Esporte Clube Central":{fame:25,ovr:58,skill:3},"Juventude Regional":{fame:30,ovr:58,skill:4},"Estrela da Cidade":{fame:35,ovr:59,skill:4},
+ "Vila Nova Local":{fame:40,ovr:60,skill:5},"Operário Municipal":{fame:45,ovr:60,skill:5},"Grêmio da Praça":{fame:50,ovr:61,skill:6},"Associação Esportiva Local":{fame:60,ovr:62,skill:7}
+};
+function teamRequirement(x){return x.league==="Partidas Locais"?(localRequirements[x.team]||tierRequirements[0]):tierRequirements[tierNames.indexOf(x.league)];}
+function hasMinimumSkills(){return activeSkills().every(k=>(state.skills[k]??0)>=2)}
+function skillRequirementMessage(req){const missing=activeSkills().filter(k=>(state.skills[k]??0)<2);if(missing.length)return "Você precisa ter pelo menos nível 2 em cada habilidade: "+missing.map(k=>skillNames[k]).join(", ")+".";if(skillAverage()<req.skill)return "Sua habilidade média precisa ser pelo menos "+req.skill+" para este clube.";return ""}
+function candidates(){
+ const filter=$("league").value;
+ return allTeams.filter(x=>{
+  const req=teamRequirement(x);
+  return (filter==="all"||x.league===filter)&&x.team!==state.club&&state.fame>=req.fame&&state.ovr>=req.ovr&&hasMinimumSkills()&&skillAverage()>=req.skill;
+ });
+}
+function requirementMessage(){
+ const filter=$("league").value;
+ const tiers=filter==="all"?tierNames:[filter];
+ const reqs=tiers.map(l=>({league:l,req:l==="Partidas Locais"?localRequirements["União Local FC"]:tierRequirements[tierNames.indexOf(l)]})).filter(x=>x.req);
+ const next=reqs.find(x=>state.fame<x.req.fame||state.ovr<x.req.ovr);
+ if(!next)return "Ainda não há clubes elegíveis para oferecer contrato.";
+ const missing=[];
+ if(state.fame<next.req.fame)missing.push("Fama "+next.req.fame);
+ if(state.ovr<next.req.ovr)missing.push("Overall "+next.req.ovr);
+ if(!hasMinimumSkills())missing.push("nível 2 em cada habilidade");
+ if(skillAverage()<next.req.skill)missing.push("Habilidade média "+next.req.skill);
+ return "Você ainda não está pronto para essa competição. Requisitos: "+missing.join(" e ")+".";
+}
+function generateContracts(){
+ let pool=candidates();
+ if(!pool.length){
+  state.contracts=[];
+  render();
+  $("message").textContent=requirementMessage();
+  return;
+ }
+ const picked=[];
+ while(picked.length<3&&pool.length){
+  const i=Math.floor(Math.random()*pool.length);
+  picked.push(pool.splice(i,1)[0]);
+ }
+ state.contracts=picked.map(x=>{
+  const tier=tierNames.indexOf(x.league);
+  const req=teamRequirement(x);
+  const weekly=Math.round((300+state.fame*9+state.ovr*12)*(0.65+tier*0.32)*(0.8+Math.random()*0.4));
+  return {...x,weekly,bonus:weekly*(1+Math.floor(Math.random()*3)),duration:1+Math.floor(Math.random()*3),req};
+ });
+ addLog("Você recebeu "+picked.length+" proposta(s) de contrato.");
+ render();
+ $("message").textContent="Novas propostas chegaram! Clubes maiores exigem mais Fama e Overall.";
+}
+function renderContracts(){const el=$("contracts");if(!state.contracts.length){el.innerHTML='<p class="muted">Nenhuma proposta no momento. Jogue ou clique em “Buscar contratos”.</p>';return}el.innerHTML=state.contracts.map((c,i)=>`<div class="contract"><h3>${esc(c.team)}</h3><span class="pill">${esc(c.league)}</span><span class="pill">${c.duration} temporada(s)</span><p>Requisitos para assinar: <b>Fama ${c.req.fame} • Overall ${c.req.ovr}</b><br><span class="small muted">Habilidade média mínima: ${c.req.skill} • Todas as habilidades precisam estar no nível 2 ou superior</span></p><p>Salário semanal: <b>${money(c.weekly)}</b></p><p>Bônus de assinatura: <b>${money(c.bonus)}</b></p><button type="button" data-sign="${i}">Assinar contrato</button></div>`).join("")}
+function signContract(i){const c=state.contracts[i];if(!c)return;if(state.fame<c.req.fame||state.ovr<c.req.ovr||!hasMinimumSkills()||skillAverage()<c.req.skill){const skillMsg=skillRequirementMessage(c.req);$("message").textContent=skillMsg||"Você ainda não cumpre os requisitos de Fama e Overall deste clube.";$("message").classList.add("error");return;}state.club=c.team;state.contractSalary=c.weekly||0;state.cash+=c.bonus;state.contracts=[];addLog("Você assinou com "+c.team+" ("+c.league+") e recebeu bônus de "+money(c.bonus)+".");$("message").textContent="Contrato assinado! Agora represente "+c.team+".";render()}
+$("contracts").addEventListener("click",event=>{const btn=event.target.closest("button[data-sign]");if(btn)signContract(Number(btn.dataset.sign))});
+const teamKits={"Sem clube":["#8aa0b8","#dce7f5"],"Partidas Locais":["#36c275","#eef5ff"],"Brasileirão Série A":["#f2c94c","#173a7a"],"Brasileirão Série B":["#4aa3df","#ffffff"],"Brasileirão Série C":["#e65b5b","#ffffff"],"Brasileirão Série D":["#8f6ad9","#ffffff"],"La Liga":["#e34b4b","#f5d76e"],"Premier League":["#5d63d8","#f1f4ff"],"Arebea":["#d7a63d","#173b2a"],"Seleções":["#4db8e8","#f4d03f"]};
+function escAttr(s){return esc(s)}
+function outfitLeague(){if(state.club==="Sem clube")return "Sem clube • roupa neutra"; const x=allTeams.find(x=>x.team===state.club); return x?x.league+" • uniforme definido pelo clube":"Roupa do clube"}
+function avatarMarkup(compact=false){
+ const league=(allTeams.find(x=>x.team===state.club)||{}).league;
+ const kit=(teamKits[league]||teamKits["Sem clube"]);
+ const skin={claro:"#ffd0ad",medio:"#d89a70",moreno:"#a96648",escuro:"#663d2d"}[state.skin]||"#d89a70";
+ const eye={castanhos:"#6b351c",pretos:"#151515",azuis:"#2878c8",verdes:"#25844c",mel:"#b87922"}[state.eyes]||"#6b351c";
+ const hairColor="#3a241b";
+ const hairClass="hair-"+state.hair;
+ const scale=compact?" mini":"";
+ return `<div class="player-avatar${scale}"><div class="av-head" style="background:${skin}"><div class="av-hair ${hairClass}" style="--hair:${hairColor}"></div><div class="av-eyes"><i style="background:${eye}"></i><i style="background:${eye}"></i></div><div class="av-nose"></div><div class="av-mouth"></div></div><div class="av-neck" style="background:${skin}"></div><div class="av-body" style="background:${kit[0]};border-color:${kit[1]}"><span>${compact?'⚽':esc(state.position)}</span></div><div class="av-arm left" style="background:${skin}"></div><div class="av-arm right" style="background:${skin}"></div><div class="av-leg left"></div><div class="av-leg right"></div></div>`;
+}
+function updateAvatar(){
+ $("avatar").innerHTML=avatarMarkup(false);
+ $("outfitText").textContent="👕 "+outfitLeague();
+ const c=$("cornerAvatar"); if(c)c.innerHTML=avatarMarkup(true);
+}
+function updateAvatarUI(){
+ const custom=$("characterCustomizer"), corner=$("cornerAvatar");
+ if(!custom||!corner)return;
+ custom.style.display=state.avatarSaved?"none":"block";
+ corner.style.display=state.avatarSaved?"flex":"none";
+}
+["hair","eyes","skin"].forEach(id=>$(id).addEventListener("change",()=>{state[id]=$(id).value;updateAvatar();save()}));
+$("saveAvatar").addEventListener("click",()=>{state.avatarSaved=true;save();updateAvatarUI();$("message").classList.remove("error");$("message").textContent="Avatar salvo! Ele agora aparece no canto da tela.";});
+
+const equipmentCatalog={
+ Goleiro:[
+  {id:"luvas_pro",name:"🧤 Luvas Profissionais",price:250000,effect:"+12% defesa",def:12},
+  {id:"luvas_elite",name:"🧤 Luvas Elite",price:2500000,effect:"+22% defesa",def:22},
+  {id:"joelheira_gk",name:"🦵 Joelheira de Goleiro",price:900000,effect:"+5% defesa",def:5}
+ ],
+ Atacante:[
+  {id:"chuteira_finalizadora",name:"👟 Chuteira Finalizadora",price:300000,effect:"+10% rendimento ofensivo",atk:10},
+  {id:"chuteira_elite_atk",name:"👟 Chuteira Elite de Ataque",price:3000000,effect:"+20% rendimento ofensivo",atk:20},
+  {id:"caneleira_atk",name:"🛡️ Caneleira de Ataque",price:750000,effect:"+4% rendimento",atk:4}
+ ],
+ Ponta:[
+  {id:"chuteira_speed",name:"👟 Chuteira Speed",price:350000,effect:"+12% velocidade/rendimento",atk:12},
+  {id:"chuteira_speed_elite",name:"👟 Chuteira Speed Elite",price:3500000,effect:"+22% velocidade/rendimento",atk:22},
+  {id:"caneleira_ponta",name:"🛡️ Caneleira Leve",price:700000,effect:"+4% rendimento",atk:4}
+ ],
+ Meia:[
+  {id:"chuteira_controle",name:"👟 Chuteira de Controle",price:300000,effect:"+10% controle/rendimento",atk:10},
+  {id:"chuteira_controle_elite",name:"👟 Chuteira Elite de Controle",price:3000000,effect:"+20% controle/rendimento",atk:20},
+  {id:"caneleira_meia",name:"🛡️ Caneleira de Meio-Campo",price:700000,effect:"+4% rendimento",atk:4}
+ ],
+ Volante:[
+  {id:"chuteira_resistencia",name:"👟 Chuteira de Resistência",price:300000,effect:"+10% rendimento",atk:10},
+  {id:"chuteira_resistencia_elite",name:"👟 Chuteira Elite de Resistência",price:3000000,effect:"+20% rendimento",atk:20},
+  {id:"caneleira_vol",name:"🛡️ Caneleira Reforçada",price:800000,effect:"+5% rendimento",atk:5}
+ ],
+ Zagueiro:[
+  {id:"chuteira_defesa",name:"👟 Chuteira de Defesa",price:300000,effect:"+10% rendimento defensivo",atk:10},
+  {id:"chuteira_defesa_elite",name:"👟 Chuteira Elite de Defesa",price:3000000,effect:"+20% rendimento defensivo",atk:20},
+  {id:"caneleira_def",name:"🛡️ Caneleira Reforçada",price:850000,effect:"+5% rendimento defensivo",atk:5}
+ ]
+};
+function equipmentBonus(){return state.equipment.reduce((sum,id)=>{const item=Object.values(equipmentCatalog).flat().find(x=>x.id===id);return sum+(item?.atk||0)+(item?.def||0)},0)}
+function renderShop(){const items=equipmentCatalog[state.position]||[];const owned=new Set(state.equipment);const el=$("shopItems");el.innerHTML=`<div class="row" style="margin-top:0"><span class="pill">Posição: ${esc(state.position)}</span><span class="pill">Bônus total: +${equipmentBonus()}%</span></div>`+items.map(item=>`<div class="contract"><h3>${item.name}</h3><p>${item.effect}</p><p>Preço: <b>${money(item.price)}</b></p><button type="button" data-buy="${item.id}" ${owned.has(item.id)||state.cash<item.price?'disabled':''}>${owned.has(item.id)?'Equipado':state.cash<item.price?'Dinheiro insuficiente':'Comprar'}</button></div>`).join("");}
+function buyEquipment(id){const item=Object.values(equipmentCatalog).flat().find(x=>x.id===id);if(!item||!equipmentCatalog[state.position]?.some(x=>x.id===id)||state.equipment.includes(id))return;if(state.cash<item.price){$("message").textContent="Você não tem dinheiro suficiente para esse equipamento.";return}state.cash-=item.price;state.equipment.push(id);addLog("Você comprou "+item.name+" por "+money(item.price)+". Bônus: "+item.effect+".");$("message").textContent="Equipamento comprado e equipado! Seu rendimento melhorou.";render()}
+$("shopItems").addEventListener("click",e=>{const b=e.target.closest("button[data-buy]");if(b)buyEquipment(b.dataset.buy)});
+function careBar(label,value,icon){const color=value<=20?"#ff6262":value<=45?"#ffd166":"#49e09b";return `<div class="need-row"><strong><span>${icon} ${label}</span><span>${Math.round(value)}%</span></strong><div class="need-bar"><i style="width:${value}%;background:${color}"></i></div></div>`}
+function renderNeeds(){$("needsStatus").innerHTML=careBar("Fome",state.hunger,"🍽️")+careBar("Sono",state.energy,"😴")+careBar("Saúde",state.health,"❤️");}
+function openNeeds(){$("careMessage").textContent="";renderNeeds();$("needsModal").style.display="flex";}
+function closeNeeds(){$("needsModal").style.display="none";}
+function careAction(action){const msg=$("careMessage");if(action==="food"){if(state.cash<100){msg.textContent="Você não tem dinheiro suficiente para comprar comida.";return;}if(state.hunger>=100){msg.textContent="Seu personagem não está com fome.";return;}state.cash-=100;state.hunger=Math.min(100,state.hunger+55);addLog("Você comprou comida para o personagem.");msg.textContent="🍽️ Seu personagem comeu e recuperou a fome!";}else if(action==="sleep"){if(state.energy>=100){msg.textContent="Seu personagem não está com sono.";return;}state.energy=Math.min(100,state.energy+65);addLog("Seu personagem descansou na cama.");msg.textContent="😴 Seu personagem está dormindo...";document.querySelectorAll("#avatar .player-avatar,#cornerAvatar .player-avatar").forEach(x=>x.classList.add("sleeping"));setTimeout(()=>document.querySelectorAll(".player-avatar.sleeping").forEach(x=>x.classList.remove("sleeping")),4000);}else if(action==="medicine"){if(state.cash<5000){msg.textContent="Você não tem dinheiro suficiente para comprar o kit médico.";return;}if(state.health>=100){msg.textContent="Seu personagem está saudável.";return;}state.cash-=5000;state.health=Math.min(100,state.health+60);addLog("Você comprou um kit médico e cuidou da saúde.");msg.textContent="🏥 O tratamento foi realizado!";}renderNeeds();render();}
+function needsBlockMessage(){if(state.hunger<=15)return "Seu personagem está com fome";if(state.energy<=15)return "Seu personagem está com sono";if(state.health<=15)return "Seu personagem não está bem";return "";}
+$("cornerAvatar").addEventListener("click",openNeeds);$("cornerAvatar").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openNeeds();}});
+$("closeNeeds").addEventListener("click",closeNeeds);$("needsModal").addEventListener("click",e=>{if(e.target.id==="needsModal")closeNeeds();});
+$("needsModal").addEventListener("click",e=>{const b=e.target.closest("button[data-care]");if(b)careAction(b.dataset.care);});
+function showProfileError(){
+ const msg=$("message");msg.textContent="Primeiro crie um nome, um avatar e coloque a sua posição";msg.classList.add("error");
+}
+function lockProfile(){
+ const nm=$("playerName").value.trim();
+ const pos=$("position").value;
+ if(!nm||!pos||!state.avatarSaved){showProfileError();if(!nm)$("playerName").focus();else if(!pos)$("position").focus();else $("characterCustomizer").scrollIntoView({behavior:"smooth",block:"center"});return false;}
+ if(state.profileLocked){return true;}
+ state.name=nm; state.position=pos; state.profileLocked=true;
+ addLog("Perfil definido: "+state.name+" — "+state.position+". Nome e posição não podem mais ser alterados.");
+ $("message").classList.remove("error");render(); return true;
+}
+$("confirmProfile").addEventListener("click",lockProfile);
+$("playerName").addEventListener("input",function(){if(!state.profileLocked){state.name=this.value;if(this.value.trim()&&$("position").value&&state.avatarSaved)$("message").classList.remove("error");}});
+$("position").addEventListener("change",function(){if(!state.profileLocked){state.position=this.value;renderShop();renderSkills();updateAvatar();save();if($("playerName").value.trim()&&this.value&&state.avatarSaved)$("message").classList.remove("error");}});
+const leagueNames=["Brasileirão Série A","Brasileirão Série B","Brasileirão Série C","Brasileirão Série D","La Liga","Premier League"];
+function currentLeague(){return (allTeams.find(x=>x.team===state.club)||{}).league||null}
+function leagueClub(){return leagueNames.includes(currentLeague())}
+function makeLeagueSeason(){const league=currentLeague(),teams=(clubs[league]||[]).slice();return {type:"league",league,teams,round:0,table:teams.map(team=>({team,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0})),opponents:teams.filter(x=>x!==state.club).sort(()=>Math.random()-.5),done:false,noticeShown:true}}
+function maybeStartLeague(){if(leagueClub()&&( !state.leagueSeason||state.leagueSeason.done )&&(state.leagueMatchesSinceCup||0)>=10){state.leagueMatchesSinceCup=0;state.leagueSeason=makeLeagueSeason();renderCompetitionCounters();addLog("Começou um novo campeonato: "+state.leagueSeason.league+" após 10 partidas normais.");$("message").textContent="🏆 Começou o "+state.leagueSeason.league+"! O contador foi reiniciado. Abra a tabela para acompanhar.";save();openLeagueTable();}}
+function leagueRow(team){return state.leagueSeason.table.find(x=>x.team===team)}
+function applyLeagueResult(a,b,ga,gb){const A=leagueRow(a),B=leagueRow(b);if(!A||!B)return;A.p++;B.p++;A.gf+=ga;A.ga+=gb;B.gf+=gb;B.ga+=ga;if(ga>gb){A.w++;A.pts+=3;B.l++}else if(ga<gb){B.w++;B.pts+=3;A.l++}else{A.d++;B.d++;A.pts++;B.pts++}}
+function playLeagueRound(){const t=state.leagueSeason;if(!t||t.done)return;const user=state.club;let opponent=t.opponents[(t.round)%t.opponents.length];if(!opponent)opponent=t.teams.find(x=>x!==user);const myGoals=Math.floor(Math.random()*4),theirGoals=Math.floor(Math.random()*4);applyLeagueResult(user,opponent,myGoals,theirGoals);
+ // Simula as outras partidas da rodada para manter a tabela completa.
+ const rest=t.teams.filter(x=>x!==user&&x!==opponent).sort(()=>Math.random()-.5);for(let i=0;i+1<rest.length;i+=2)applyLeagueResult(rest[i],rest[i+1],Math.floor(Math.random()*4),Math.floor(Math.random()*4));
+ t.round++;const won=myGoals>theirGoals,draw=myGoals===theirGoals;const reward=won?18000+Math.floor(Math.random()*9001):draw?11000+Math.floor(Math.random()*5001):7000+Math.floor(Math.random()*4001);const fame=won?30+Math.floor(Math.random()*16):draw?18+Math.floor(Math.random()*9):10+Math.floor(Math.random()*6);state.cash+=reward;state.fame+=fame;addLog(`${t.league}: ${myGoals} x ${theirGoals} contra ${opponent}. +${money(reward)} e +${fame} de Fama.`);$("message").textContent=`${t.league}: ${myGoals} x ${theirGoals} contra ${opponent}. ${won?"Vitória":draw?"Empate":"Derrota"}! +${money(reward)} e +${fame} de Fama.`;
+ if(t.round>=38){t.done=true;const pos=[...t.table].sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf).findIndex(x=>x.team===user)+1; t.finalPosition=pos;const prize=pos===1?150000:pos<=4?90000:pos<=6?60000:pos<=16?30000:10000;const famePrize=pos===1?250:pos<=4?150:pos<=6?100:pos<=16?60:25;state.cash+=prize;state.fame+=famePrize;addLog(`Temporada encerrada: ${pos}º lugar. Bônus de ${money(prize)} e +${famePrize} de Fama.`)}save();render();renderLeagueTable();}
+function openLeagueTable(){if(!state.leagueSeason)return;$("tournamentModal").style.display="flex";renderLeagueTable()}
+function renderLeagueTable(){const t=state.leagueSeason;if(!t)return;$("tournamentTitle").textContent="🏆 "+t.league;$("tournamentIntro").textContent="Campeonato em pontos corridos: vitória vale 3 pontos, empate 1 e derrota 0. Cada clube disputa 38 rodadas, em turno e returno.";const sorted=[...t.table].sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf);let html=`<div class="contract"><b>Rodada:</b> ${Math.min(t.round,38)}/38 ${t.done?` • <b>Classificação final: ${t.finalPosition}º lugar</b>`:""}<br><b>Seu clube:</b> ${esc(state.club)}</div><div style="overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="color:var(--gold)"><th>#</th><th style="text-align:left">Clube</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>Pts</th></tr></thead><tbody>`;sorted.forEach((r,i)=>{const gd=r.gf-r.ga;html+=`<tr style="border-top:1px solid var(--line);${r.team===state.club?'background:#173b32;font-weight:800':''}"><td>${i+1}</td><td style="text-align:left;padding:7px 3px">${esc(r.team)}</td><td>${r.p}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td><td>${gd>0?'+'+gd:gd}</td><td>${r.pts}</td></tr>`});html+='</tbody></table></div><p class="small muted">A tabela é atualizada a cada partida da liga. Os quatro primeiros recebem destaque de classificação; no Brasileirão Série A, B e C, os quatro últimos são rebaixados na simulação. Na Série D, os melhores avançam conforme a campanha.</p>';$('tournamentContent').innerHTML=html;$('tournamentPlay').style.display=t.done?'none':'';$('tournamentPlay').textContent='⚽ Jogar próxima rodada';}
+const localTournamentTeams=["União Local FC","Atlético Municipal","Real Bairro FC","Esporte Clube Central","Juventude Regional","Estrela da Cidade","Vila Nova Local","Operário Municipal","Grêmio da Praça","Associação Esportiva Local"];
+function isLocalClub(){return localTournamentTeams.includes(state.club)}
+function maybeAnnounceTournament(){if(isLocalClub()&&(state.localMatchesSinceCup||0)>=30&&(!state.tournament||state.tournament.stage==="done")){state.localMatchesSinceCup=0;state.tournamentNoticeShown=true;state.tournament={stage:"groups",played:0,points:0,wins:0,losses:0,group:[state.club,...localTournamentTeams.filter(t=>t!==state.club).sort(()=>Math.random()-.5).slice(0,3)],round:0,done:false};addLog("Começou um novo Torneio das Partidas Locais após 30 partidas normais!");$("message").textContent="🏆 Começou o Torneio das Partidas Locais! O contador foi reiniciado. Abra a tela do torneio para participar.";save();openTournament();}}
+function openTournament(){if(!state.tournament)return;$("tournamentModal").style.display="flex";renderTournament()}
+function renderTournament(){const t=state.tournament;if(!t)return;const stageNames={groups:"Fase de grupos",round16:"Oitavas de final",quarters:"Quartas de final",semis:"Semifinal",final:"Final",done:"Torneio encerrado"};$("tournamentTitle").textContent="🏆 Torneio das Partidas Locais — "+(stageNames[t.stage]||"Torneio");$("tournamentIntro").textContent="Cada partida dá dinheiro e Fama, mesmo em caso de derrota. Vitórias pagam mais. Clique em ‘Pular próxima partida’ para simular o jogo.";let body='';if(t.stage==="groups"){body='<h3>Seu grupo</h3><p>Grupo A • '+t.group.map(esc).join(' • ')+'</p><div class="contract"><b>Campanha:</b> '+t.played+' de 3 partidas disputadas<br><b>Pontos:</b> '+t.points+' (vitórias: '+t.wins+')</div><p class="small muted">Você precisa somar pelo menos 4 pontos nas três partidas para avançar às oitavas.</p>'}else if(t.stage!=="done"){body='<div class="contract"><h3>'+stageNames[t.stage]+'</h3><p>Jogo eliminatório: '+(t.round+1)+'</p><p>Vença para continuar. Uma derrota encerra sua participação no torneio.</p></div>'}else{body='<div class="contract"><h3>Participação concluída</h3><p>'+esc(t.result||"O torneio terminou.")+'</p><p>Você pode voltar à carreira normal.</p></div>'}$("tournamentContent").innerHTML=body;$("tournamentPlay").disabled=t.stage==="done";$("tournamentPlay").textContent=t.stage==="done"?"Torneio encerrado":"▶️ Pular próxima partida";}
+function tournamentMatch(){const t=state.tournament;if(!t||t.stage==="done")return;const won=Math.random()<(Math.min(.85,.25+state.ovr/200+skillAverage()/500));const draw=t.stage==="groups"&&!won&&Math.random()<.25;const reward=won?15000+Math.floor(Math.random()*10001):draw?9000+Math.floor(Math.random()*4001):5000+Math.floor(Math.random()*3001);const fame=won?35+Math.floor(Math.random()*26):draw?20+Math.floor(Math.random()*11):10+Math.floor(Math.random()*11);state.cash+=reward;state.fame+=fame;let outcome=won?"vitória":draw?"empate":"derrota";addLog(`Torneio local: ${outcome}. +${money(reward)} e +${fame} de Fama.`);$("message").textContent=`Torneio: ${outcome}! Você ganhou ${money(reward)} e +${fame} de Fama.`;
+ if(t.stage==="groups"){t.played++;if(won){t.points+=3;t.wins++}else if(draw)t.points+=1;else t.losses++;if(t.played>=3){if(t.points>=4){t.stage="round16";t.round=0;addLog("Você avançou da fase de grupos para as oitavas de final!")}else{t.stage="done";t.result="Você não se classificou para as oitavas. Volte à carreira normal.";addLog("Você foi eliminado na fase de grupos do torneio local.")}}}else if(won){if(t.stage==="round16")t.stage="quarters";else if(t.stage==="quarters")t.stage="semis";else if(t.stage==="semis")t.stage="final";else if(t.stage==="final"){t.stage="done";t.result="Campeão do Torneio das Partidas Locais! Parabéns!";state.cash+=50000;state.fame+=100;addLog("🏆 Campeão do Torneio das Partidas Locais! Bônus: R$ 50.000 e +100 de Fama.")}}else{t.stage="done";t.result="Você perdeu no mata-mata e voltou à carreira normal.";addLog("Eliminado no mata-mata do torneio local.")}save();render();renderTournament();}
+$("tournamentPlay").addEventListener("click",()=>{if(state.leagueSeason&&$("tournamentTitle").textContent.includes(state.leagueSeason.league))playLeagueRound();else tournamentMatch()});$("tournamentClose").addEventListener("click",()=>{$("tournamentModal").style.display="none"});
+$("play").addEventListener("click",()=>{if(!lockProfile())return;const needsMessage=needsBlockMessage();if(needsMessage){$("message").textContent=needsMessage;$("message").classList.add("error");return;}$("message").classList.remove("error");state.matches++;state.hunger=Math.max(0,state.hunger-2);state.energy=Math.max(0,state.energy-3);const injured=Math.random()<.04;if(injured){state.health=Math.max(0,state.health-8);addLog("⚠️ Você sofreu um machucado durante a partida. Procure o hospital para se recuperar.");}const roll=Math.random();const performanceBonus=equipmentBonus()/100;const skillBonus=Math.max(0,skillAverage()-55)/500;const won=roll<Math.min(.68,.10+state.ovr/360+skillBonus+performanceBonus);const draw=!won&&roll<.50;const isArebea=state.club!=="Sem clube"&&allTeams.some(x=>x.league==="Arebea"&&x.team===state.club);const isLocal=state.club==="Sem clube"||allTeams.some(x=>x.league==="Partidas Locais"&&x.team===state.club);if(leagueClub()&&(!state.leagueSeason||state.leagueSeason.done))state.leagueMatchesSinceCup=(state.leagueMatchesSinceCup||0)+1;if(isLocalClub())state.localMatchesSinceCup=(state.localMatchesSinceCup||0)+1;const gain=isLocal?(won?2+Math.floor(Math.random()*3):draw?1+Math.floor(Math.random()*2):1):(won?12+Math.floor(Math.random()*14):draw?5+Math.floor(Math.random()*7):1+Math.floor(Math.random()*5));const baseMatchPay=2000;const skillPay=skillAverage()*750;const contractPay=state.contractSalary||0;let matchMoney=baseMatchPay+skillPay+contractPay;let fameChange=gain;if(isArebea){const arebeaTeams=clubs["Arebea"];const idx=Math.max(0,arebeaTeams.indexOf(state.club));matchMoney+=50000000+idx*10000000+Math.round(state.ovr*500000);const fameLoss=10+Math.floor(Math.random()*11);fameChange=-fameLoss;state.fame=Math.max(0,state.fame+fameChange);state.cash+=matchMoney}else{state.fame+=gain;state.cash+=matchMoney}if(won){state.wins++;state.ovr=Math.min(115,state.ovr+(Math.random()<.45?1:0))}if(isArebea){addLog(`${state.name}: ${won?"vitória":draw?"empate":"derrota"} na Liga Arebea. +${money(matchMoney)} por partida e -${Math.abs(fameChange)} de Fama.`);$("message").textContent=`${won?"Vitória!":draw?"Empate.":"Derrota."} +${money(matchMoney)} e -${Math.abs(fameChange)} de Fama na Liga Arebea.`}else if(isLocal){addLog(`${state.name}: ${won?"vitória":draw?"empate":"derrota"} em Partidas Locais. +${money(matchMoney)} e +${gain} de Fama.`);$("message").textContent=`${won?"Vitória!":draw?"Empate.":"Derrota."} +${money(matchMoney)} e +${gain} de Fama em Partidas Locais.`}else{addLog(`${state.name}: ${won?"vitória":draw?"empate":"derrota"} na partida. +${gain} de Fama.`);$("message").textContent=`${won?"Vitória!":draw?"Empate.":"Derrota, mas você ganhou experiência."} +${gain} de Fama.`}if(injured){$("message").textContent+=" ⚠️ Você sofreu um machucado! Cuide da saúde no hospital.";}if(state.matches===1||Math.random()<.35)generateContracts();else render();maybeAnnounceTournament();maybeStartLeague();if(state.leagueSeason&&!state.leagueSeason.done&&leagueClub())playLeagueRound()});
+$("trainingTab").addEventListener("click",()=>{const p=$("trainingPanel");p.style.display=p.style.display==="none"?"block":"none";renderSkills()});
+$("skills").addEventListener("click",e=>{const b=e.target.closest("button[data-train-skill]");if(!b)return;const k=b.dataset.trainSkill;if(!activeSkills().includes(k))return;if(state.cash<5000){$("message").textContent="Você precisa de R$ 5.000 para upar essa habilidade.";return}if((state.skills[k]??0)>=115){$("message").textContent="Essa habilidade já chegou ao nível máximo de 115.";return}state.cash-=5000;state.skills[k]=(state.skills[k]??0)+1;addLog(`Upgrade: ${skillNames[k]} +1 (nível ${state.skills[k]}).`);$("message").textContent=`${skillNames[k]} aumentou para nível ${state.skills[k]}! Seu rendimento melhorou.`;render()});
+$("offer").addEventListener("click",generateContracts);
+$("resetGame").addEventListener("click",()=>{if(confirm("Tem certeza que deseja reiniciar o jogo? Todo o progresso será apagado.")){localStorage.removeItem("footballCareerSave");localStorage.removeItem("footballCareerSaved");localStorage.removeItem("footballCareerSavedAt");location.reload();}});
+$("teams").innerHTML=Object.entries(clubs).map(([l,ts])=>`<div style="width:100%;margin-top:8px"><b>${esc(l)}</b><div class="teamlist">${ts.map(t=>`<span class="pill">${esc(t)}</span>`).join("")}</div></div>`).join("");
+render();
+if(state.leagueSeason){const lb=document.createElement("button");lb.textContent="🏆 Abrir tabela do campeonato";lb.className="secondary";lb.style.cssText="position:fixed;top:58px;right:12px;z-index:90";lb.onclick=openLeagueTable;document.body.appendChild(lb)}
+if(state.tournament&&!state.tournament.done){const tb=document.createElement("button");tb.textContent="🏆 Abrir torneio";tb.className="secondary";tb.style.cssText="position:fixed;top:12px;right:12px;z-index:90";tb.onclick=openTournament;document.body.appendChild(tb)}
+// Confirma que os controles estão ligados após o carregamento do documento.
+["play","trainingTab","offer"].forEach(id=>{const el=$(id);if(el)el.disabled=false});
+</script>
+<script id="v127-collapsible-panels">
+(function(){
+  const panels=[
+    {id:'contracts',key:'fc127-hide-contracts'},
+    {id:'shopPanel',key:'fc127-hide-shop'},
+    {id:'teams',key:'fc127-hide-teams'}
+  ];
+  panels.forEach(function(item){
+    const anchor=document.getElementById(item.id);
+    const panel=item.id==='shopPanel'?anchor:(anchor&&anchor.closest('.panel'));
+    if(!panel||panel.dataset.collapsibleReady==='1')return;
+    panel.dataset.collapsibleReady='1';
+    const heading=panel.querySelector('h2');
+    if(!heading)return;
+    const header=document.createElement('div');
+    header.className='collapsible-heading';
+    heading.parentNode.insertBefore(header,heading);
+    header.appendChild(heading);
+    const content=document.createElement('div');
+    content.className='collapsible-content';
+    while(header.nextSibling) content.appendChild(header.nextSibling);
+    panel.appendChild(content);
+    const button=document.createElement('button');
+    button.type='button';button.className='panel-toggle';
+    header.appendChild(button);
+    const hidden=localStorage.getItem(item.key)==='1';
+    content.hidden=hidden;
+    function update(){button.textContent=content.hidden?'＋ Mostrar':'－ Esconder';button.setAttribute('aria-expanded',String(!content.hidden));}
+    button.addEventListener('click',function(){content.hidden=!content.hidden;localStorage.setItem(item.key,content.hidden?'1':'0');update();});
+    update();
+  });
+})();
+</script>
+
+</body></html>
